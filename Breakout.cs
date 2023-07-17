@@ -1,15 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿using breakout01.Content.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Runtime.CompilerServices;
 
 namespace breakout01
 {
-    public class Game1 : Game
+    public class Breakout : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public Game1()
+        private ScreenHelper _screenHelper;
+
+        private GameField _gameField;
+        private Paddle _paddle;
+
+        public Breakout()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -18,7 +25,11 @@ namespace breakout01
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            _graphics.PreferredBackBufferWidth = 600;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
+
+            _screenHelper = new ScreenHelper(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
             base.Initialize();
         }
@@ -26,6 +37,9 @@ namespace breakout01
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            _gameField = new GameField(Content);
+            _paddle = new Paddle(Content, _screenHelper);
 
             // TODO: use this.Content to load your game content here
         }
@@ -35,16 +49,18 @@ namespace breakout01
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            _paddle.Update(_screenHelper);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
+            _gameField.Draw(_spriteBatch);
+            _paddle.Draw(_spriteBatch);
+
 
             base.Draw(gameTime);
         }
