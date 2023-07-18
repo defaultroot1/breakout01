@@ -14,6 +14,7 @@ namespace breakout01
 
         private ScoreBoard _scoreBoard;
         private ScreenHelper _screenHelper;
+        private AudioManager _audioManager;
 
         private GameField _gameField;
         private Paddle _paddle;
@@ -35,6 +36,7 @@ namespace breakout01
             _graphics.ApplyChanges();
 
             _screenHelper = new ScreenHelper(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            _audioManager = new AudioManager(Content);
 
             base.Initialize();
         }
@@ -59,7 +61,7 @@ namespace breakout01
                 Exit();
 
             _paddle.Update(_screenHelper, _ball);
-            _ball.Update(_screenHelper, _paddle, _blockManager.Blocks, _scoreBoard);
+            _ball.Update(_screenHelper, _paddle, _blockManager.Blocks, _scoreBoard, _audioManager);
 
             base.Update(gameTime);
         }

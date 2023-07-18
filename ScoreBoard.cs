@@ -19,6 +19,8 @@ namespace breakout01
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(_font, Lives.ToString(), new Vector2(15, 25), Color.White);
+
+
             spriteBatch.DrawString(_font, Score.ToString("D3"), new Vector2(70, 80), Color.White);
         }
 

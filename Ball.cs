@@ -12,7 +12,9 @@ namespace breakout01
         private Texture2D _texture;
         private Vector2 _position;
         private Vector2 _velocity;
-        private float _speed = 6.0f;
+        private float _initialBallSpeed = 3.0f;
+        private float _speed;
+        private float _speedIncrease = 0.2f;
         public bool InMotion { get; set; } = false;
 
         public Ball(ContentManager contentManager, ScreenHelper screenHelper)
@@ -20,13 +22,14 @@ namespace breakout01
             _texture = contentManager.Load<Texture2D>("Sprites/Ball");
             _position = new Vector2(screenHelper.ScreenWidth / 2, screenHelper.ScreenHeight - 200);
             _velocity = new Vector2(1, -1);
+            _speed = _initialBallSpeed;
         }
 
         public Rectangle GetBounds()
         {
             return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
         }
-        public void Update(ScreenHelper screenHelper, Paddle paddle, List<Block> blocks, ScoreBoard scoreBoard)
+        public void Update(ScreenHelper screenHelper, Paddle paddle, List<Block> blocks, ScoreBoard scoreBoard, AudioManager audioManager)
         {
 
             Vector2 previousPosition = _position;
@@ -47,19 +50,33 @@ namespace breakout01
             if (_position.X >= screenHelper.ScreenWidth - 12 - _texture.Width)
             {
                 _velocity.X *= -1f;
+                audioManager.AudioHitWall();
             }
             if (_position.X <= 12)
             {
                 _velocity.X *= -1f;
+                audioManager.AudioHitWall();
             }
             if (_position.Y <= 26)
             {
                 _velocity.Y *= -1f;
+                audioManager.AudioHitWall();
             }
 
+            // Ball leaves field
+            if (_position.Y > screenHelper.ScreenHeight)
+            {
+                InMotion = false;
+                scoreBoard.Lives--;
+                _speed = _initialBallSpeed;
+            }
+
+            // Collision with paddle
             if (GetBounds().Intersects(paddle.GetBounds()))
             {
                 _velocity.Y *= -1;
+                _speed += _speedIncrease;
+                audioManager.AudioHitPaddle();
             }
 
 
@@ -88,7 +105,9 @@ namespace breakout01
                         _velocity.X *= -1;
                     }
 
+                    _speed += _speedIncrease;
                     blocks.Remove(blocks[i]);
+                    audioManager.AudioHitBlock();
                     scoreBoard.Score += blocks[i].Points;
                 }
             }
