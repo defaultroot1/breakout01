@@ -15,6 +15,7 @@ namespace breakout01
 
         private GameField _gameField;
         private Paddle _paddle;
+        private Ball _ball;
 
         public Breakout()
         {
@@ -40,6 +41,7 @@ namespace breakout01
 
             _gameField = new GameField(Content);
             _paddle = new Paddle(Content, _screenHelper);
+            _ball = new Ball(Content, _screenHelper);
 
             // TODO: use this.Content to load your game content here
         }
@@ -50,6 +52,7 @@ namespace breakout01
                 Exit();
 
             _paddle.Update(_screenHelper);
+            _ball.Update(_screenHelper, _paddle);
 
             base.Update(gameTime);
         }
@@ -58,9 +61,13 @@ namespace breakout01
         {
             GraphicsDevice.Clear(Color.Black);
 
+            _spriteBatch.Begin();
+
             _gameField.Draw(_spriteBatch);
             _paddle.Draw(_spriteBatch);
+            _ball.Draw(_spriteBatch);
 
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

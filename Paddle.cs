@@ -18,6 +18,10 @@ namespace breakout01
             _texture = contentManager.Load<Texture2D>("Sprites/Paddle");
             _position = new Vector2(screenHelper.ScreenWidth / 2, screenHelper.ScreenHeight * 0.94f);
         }
+        public Rectangle GetBounds()
+        {
+            return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+        }
 
         public void Update(ScreenHelper screenHelper)
         {
@@ -37,9 +41,7 @@ namespace breakout01
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             spriteBatch.Draw(_texture, _position, Color.White);
-            spriteBatch.End();
         }
     }
 }

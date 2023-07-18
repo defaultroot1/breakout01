@@ -15,9 +15,7 @@ namespace breakout01
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             spriteBatch.Draw(_texture, Vector2.Zero, Color.White);
-            spriteBatch.End();
         }
     }
 }
