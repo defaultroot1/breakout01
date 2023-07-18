@@ -11,7 +11,7 @@ namespace breakout01
         public Texture2D Texture { get; private set; }
         public Vector2 Position { get; private set; }
         private KeyboardState _keyboardState;
-        private float _speed = 3f;
+        private float _speed = 6f;
 
         public Paddle(ContentManager contentManager, ScreenHelper screenHelper)
         {

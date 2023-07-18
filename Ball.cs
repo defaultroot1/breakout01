@@ -12,7 +12,7 @@ namespace breakout01
         private Texture2D _texture;
         private Vector2 _position;
         private Vector2 _velocity;
-        private float _speed = 3.0f;
+        private float _speed = 6.0f;
         public bool InMotion { get; set; } = false;
 
         public Ball(ContentManager contentManager, ScreenHelper screenHelper)
@@ -28,6 +28,9 @@ namespace breakout01
         }
         public void Update(ScreenHelper screenHelper, Paddle paddle, List<Block> blocks)
         {
+
+            Vector2 previousPosition = _position;
+
             if (InMotion)
             {
                 _position += _velocity * _speed;
@@ -59,16 +62,40 @@ namespace breakout01
                 _velocity.Y *= -1;
             }
 
+
             for (int i = 0; i < blocks.Count; i++)
             {
                 if (GetBounds().Intersects(blocks[i].GetBounds()))
                 {
-                    blocks.Remove(blocks[i]);
+                    if (_position.Y <= blocks[i].Position.Y + blocks[i].Texture.Height && previousPosition.Y > blocks[i].Position.Y + blocks[i].Texture.Height)
+                    {
+                        // Block was hit from bottom
+                        blocks.Remove(blocks[i]);
+                        _velocity.Y *= -1;
+                    }
+                    else if(_position.Y + _texture.Height >= blocks[i].Position.Y && previousPosition.Y + _texture.Height < blocks[i].Position.Y)
+                    {
+                        // Block was hit from top
+                        blocks.Remove(blocks[i]);
+                        _velocity.Y *= -1;
+                    }
+                    else if (_position.X <= blocks[i].Position.X + blocks[i].Texture.Width && previousPosition.Y > blocks[i].Position.X + blocks[i].Texture.Width)
+                    {
+                        // Block was hit from right
+                        blocks.Remove(blocks[i]);
+                        _velocity.X *= -1;
+                    }
+                    else if (_position.X + _texture.Width >= blocks[i].Position.X && previousPosition.X + _texture.Width < blocks[i].Position.X)
+                    {
+                        // Block was hit from left
+                        blocks.Remove(blocks[i]);
+                        _velocity.X *= -1;
+                    }
                 }
             }
 
-           
 
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)

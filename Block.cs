@@ -9,7 +9,7 @@ namespace breakout01
     {
         public Texture2D Texture { get; set; }
         public int Points { get; set; }
-        private Vector2 _position;
+        public Vector2 Position { get; set; }
 
         public Block(ContentManager contentManager, Vector2 position, string colour, int points)
         {
@@ -29,18 +29,18 @@ namespace breakout01
                     break;
             }
 
-            _position = position;
+            Position = position;
             Points = points;
         }
 
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)_position.X, (int)_position.Y, Texture.Width, Texture.Height);
+            return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, _position, Color.White);
+            spriteBatch.Draw(Texture, Position, Color.White);
         }
     }
 }
