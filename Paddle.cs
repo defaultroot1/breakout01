@@ -36,6 +36,7 @@ namespace breakout01
                 Position = new Vector2(Position.X + _speed, Position.Y);
             }
 
+            // Press spacebar to launch ball from paddle
             if (_keyboardState.IsKeyDown(Keys.Space) && !ball.InMotion)
             {
                 ball.InMotion = true;

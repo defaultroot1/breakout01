@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace breakout01
@@ -16,6 +17,8 @@ namespace breakout01
         private GameField _gameField;
         private Paddle _paddle;
         private Ball _ball;
+        private BlockManager _blockManager;
+
 
         public Breakout()
         {
@@ -42,8 +45,9 @@ namespace breakout01
             _gameField = new GameField(Content);
             _paddle = new Paddle(Content, _screenHelper);
             _ball = new Ball(Content, _screenHelper);
+            _blockManager = new BlockManager(Content);
 
-            // TODO: use this.Content to load your game content here
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -52,7 +56,7 @@ namespace breakout01
                 Exit();
 
             _paddle.Update(_screenHelper, _ball);
-            _ball.Update(_screenHelper, _paddle);
+            _ball.Update(_screenHelper, _paddle, _blockManager.Blocks);
 
             base.Update(gameTime);
         }
@@ -66,6 +70,8 @@ namespace breakout01
             _gameField.Draw(_spriteBatch);
             _paddle.Draw(_spriteBatch);
             _ball.Draw(_spriteBatch);
+            _blockManager.Draw(_spriteBatch);
+
 
             _spriteBatch.End();
 

@@ -1,4 +1,5 @@
-﻿using breakout01.Content.Helpers;
+﻿using System.Collections.Generic;
+using breakout01.Content.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +26,7 @@ namespace breakout01
         {
             return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
         }
-        public void Update(ScreenHelper screenHelper, Paddle paddle)
+        public void Update(ScreenHelper screenHelper, Paddle paddle, List<Block> blocks)
         {
             if (InMotion)
             {
@@ -57,6 +58,17 @@ namespace breakout01
             {
                 _velocity.Y *= -1;
             }
+
+            for (int i = 0; i < blocks.Count; i++)
+            {
+                if (GetBounds().Intersects(blocks[i].GetBounds()))
+                {
+                    blocks.Remove(blocks[i]);
+                }
+            }
+
+           
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
