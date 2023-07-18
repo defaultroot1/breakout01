@@ -12,7 +12,7 @@ namespace breakout01
         private Texture2D _texture;
         private Vector2 _position;
         private Vector2 _velocity;
-        private float _initialBallSpeed = 3.0f;
+        private float _initialBallSpeed = 5.0f;
         private float _speed;
         private float _speedIncrease = 0.2f;
         public bool InMotion { get; set; } = false;
@@ -105,7 +105,6 @@ namespace breakout01
                         _velocity.X *= -1;
                     }
 
-                    _speed += _speedIncrease;
                     blocks.Remove(blocks[i]);
                     audioManager.AudioHitBlock();
                     scoreBoard.Score += blocks[i].Points;

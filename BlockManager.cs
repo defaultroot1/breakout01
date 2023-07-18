@@ -22,7 +22,7 @@ namespace breakout01
 
             for (int i = 0; i < 8; i++)
             {
-                int blockX = 11;
+                int blockX = 13;
                 switch (i)
                 {
                     case 0:
@@ -51,7 +51,7 @@ namespace breakout01
                 {
                     Blocks.Add(new Block(
                         contentManager,
-                        new Vector2(blockX, 246 - (verticalGap * i)),
+                        new Vector2(blockX, 247 - (verticalGap * i)),
                         colour,
                         points));
 
