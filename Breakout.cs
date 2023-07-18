@@ -12,6 +12,7 @@ namespace breakout01
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private ScoreBoard _scoreBoard;
         private ScreenHelper _screenHelper;
 
         private GameField _gameField;
@@ -42,6 +43,8 @@ namespace breakout01
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            _scoreBoard = new ScoreBoard(Content);
+
             _gameField = new GameField(Content);
             _paddle = new Paddle(Content, _screenHelper);
             _ball = new Ball(Content, _screenHelper);
@@ -56,7 +59,7 @@ namespace breakout01
                 Exit();
 
             _paddle.Update(_screenHelper, _ball);
-            _ball.Update(_screenHelper, _paddle, _blockManager.Blocks);
+            _ball.Update(_screenHelper, _paddle, _blockManager.Blocks, _scoreBoard);
 
             base.Update(gameTime);
         }
@@ -68,14 +71,16 @@ namespace breakout01
             _spriteBatch.Begin();
 
             _gameField.Draw(_spriteBatch);
+            _scoreBoard.Draw(_spriteBatch);
             _paddle.Draw(_spriteBatch);
             _ball.Draw(_spriteBatch);
             _blockManager.Draw(_spriteBatch);
 
-
+            
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
+
     }
 }

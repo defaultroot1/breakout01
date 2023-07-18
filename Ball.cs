@@ -26,7 +26,7 @@ namespace breakout01
         {
             return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
         }
-        public void Update(ScreenHelper screenHelper, Paddle paddle, List<Block> blocks)
+        public void Update(ScreenHelper screenHelper, Paddle paddle, List<Block> blocks, ScoreBoard scoreBoard)
         {
 
             Vector2 previousPosition = _position;
@@ -70,27 +70,26 @@ namespace breakout01
                     if (_position.Y <= blocks[i].Position.Y + blocks[i].Texture.Height && previousPosition.Y > blocks[i].Position.Y + blocks[i].Texture.Height)
                     {
                         // Block was hit from bottom
-                        blocks.Remove(blocks[i]);
                         _velocity.Y *= -1;
                     }
                     else if(_position.Y + _texture.Height >= blocks[i].Position.Y && previousPosition.Y + _texture.Height < blocks[i].Position.Y)
                     {
                         // Block was hit from top
-                        blocks.Remove(blocks[i]);
                         _velocity.Y *= -1;
                     }
                     else if (_position.X <= blocks[i].Position.X + blocks[i].Texture.Width && previousPosition.Y > blocks[i].Position.X + blocks[i].Texture.Width)
                     {
                         // Block was hit from right
-                        blocks.Remove(blocks[i]);
                         _velocity.X *= -1;
                     }
                     else if (_position.X + _texture.Width >= blocks[i].Position.X && previousPosition.X + _texture.Width < blocks[i].Position.X)
                     {
                         // Block was hit from left
-                        blocks.Remove(blocks[i]);
                         _velocity.X *= -1;
                     }
+
+                    blocks.Remove(blocks[i]);
+                    scoreBoard.Score += blocks[i].Points;
                 }
             }
 
