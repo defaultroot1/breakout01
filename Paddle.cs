@@ -1,4 +1,4 @@
-﻿using breakout01.Content.Helpers;
+﻿using breakout01.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,17 +13,17 @@ namespace breakout01
         private KeyboardState _keyboardState;
         private float _speed = 10f;
 
-        public Paddle(ContentManager contentManager, ScreenHelper screenHelper)
+        public Paddle(ContentManager contentManager)
         {
             Texture = contentManager.Load<Texture2D>("Sprites/Paddle");
-            Position = new Vector2(screenHelper.ScreenWidth / 2, screenHelper.ScreenHeight * 0.94f);
+            Position = new Vector2(ScreenManager.ScreenWidth / 2, ScreenManager.ScreenHeight * 0.94f);
         }
         public Rectangle GetBounds()
         {
             return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
         }
 
-        public void Update(ScreenHelper screenHelper, Ball ball)
+        public void Update(Ball ball)
         {
             _keyboardState = Keyboard.GetState();
 
@@ -42,9 +42,7 @@ namespace breakout01
                 ball.InMotion = true;
             }
 
-            Position = new Vector2(MathHelper.Clamp(Position.X, 12, screenHelper.ScreenWidth - 12 - Texture.Width), Position.Y);
-
-            //Position = MathHelper.Clamp(Position.X, 12, screenHelper.ScreenWidth - 12 - Texture.Width);
+            Position = new Vector2(MathHelper.Clamp(Position.X, 12, ScreenManager.ScreenWidth - 12 - Texture.Width), Position.Y);
         }
 
         public void Draw(SpriteBatch spriteBatch)

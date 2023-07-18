@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using breakout01.Content.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

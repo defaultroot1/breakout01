@@ -1,4 +1,4 @@
-﻿using breakout01.Content.Helpers;
+﻿using breakout01.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +14,6 @@ namespace breakout01
         private SpriteBatch _spriteBatch;
 
         private ScoreBoard _scoreBoard;
-        private ScreenHelper _screenHelper;
         private AudioManager _audioManager;
 
         private GameField _gameField;
@@ -36,7 +35,9 @@ namespace breakout01
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
 
-            _screenHelper = new ScreenHelper(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            ScreenManager.ScreenWidth = _graphics.PreferredBackBufferWidth;
+            ScreenManager.ScreenHeight = _graphics.PreferredBackBufferHeight;
+
             _audioManager = new AudioManager(Content);
 
             base.Initialize();
@@ -49,8 +50,8 @@ namespace breakout01
             _scoreBoard = new ScoreBoard(Content);
 
             _gameField = new GameField(Content);
-            _paddle = new Paddle(Content, _screenHelper);
-            _ball = new Ball(Content, _screenHelper);
+            _paddle = new Paddle(Content);
+            _ball = new Ball(Content);
             _blockManager = new BlockManager(Content);
 
 
@@ -61,8 +62,8 @@ namespace breakout01
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _paddle.Update(_screenHelper, _ball);
-            _ball.Update(_screenHelper, _paddle, _blockManager.Blocks, _scoreBoard, _audioManager);
+            _paddle.Update(_ball);
+            _ball.Update(_paddle, _blockManager.Blocks, _scoreBoard, _audioManager);
 
             base.Update(gameTime);
         }

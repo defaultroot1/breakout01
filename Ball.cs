@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using breakout01.Content.Helpers;
+using breakout01.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -17,10 +17,10 @@ namespace breakout01
         private float _speedIncrease = 0.2f;
         public bool InMotion { get; set; } = false;
 
-        public Ball(ContentManager contentManager, ScreenHelper screenHelper)
+        public Ball(ContentManager contentManager)
         {
             _texture = contentManager.Load<Texture2D>("Sprites/Ball");
-            _position = new Vector2(screenHelper.ScreenWidth / 2, screenHelper.ScreenHeight - 200);
+            _position = new Vector2(ScreenManager.ScreenWidth / 2, ScreenManager.ScreenHeight - 200);
             _velocity = new Vector2(1, -1);
             _speed = _initialBallSpeed;
         }
@@ -29,7 +29,7 @@ namespace breakout01
         {
             return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
         }
-        public void Update(ScreenHelper screenHelper, Paddle paddle, List<Block> blocks, ScoreBoard scoreBoard, AudioManager audioManager)
+        public void Update(Paddle paddle, List<Block> blocks, ScoreBoard scoreBoard, AudioManager audioManager)
         {
 
             Vector2 previousPosition = _position;
@@ -47,7 +47,7 @@ namespace breakout01
 
 
             // Some hardcoded values to detect collision with the game borders
-            if (_position.X >= screenHelper.ScreenWidth - 12 - _texture.Width)
+            if (_position.X >= ScreenManager.ScreenWidth - 12 - _texture.Width)
             {
                 _velocity.X *= -1f;
                 audioManager.AudioHitWall();
@@ -64,7 +64,7 @@ namespace breakout01
             }
 
             // Ball leaves field
-            if (_position.Y > screenHelper.ScreenHeight)
+            if (_position.Y > ScreenManager.ScreenHeight)
             {
                 InMotion = false;
                 scoreBoard.Lives--;
