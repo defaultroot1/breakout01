@@ -51,7 +51,7 @@ namespace breakout01
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _paddle.Update(_screenHelper);
+            _paddle.Update(_screenHelper, _ball);
             _ball.Update(_screenHelper, _paddle);
 
             base.Update(gameTime);

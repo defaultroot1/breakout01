@@ -12,6 +12,7 @@ namespace breakout01
         private Vector2 _position;
         private Vector2 _velocity;
         private float _speed = 3.0f;
+        public bool InMotion { get; set; } = false;
 
         public Ball(ContentManager contentManager, ScreenHelper screenHelper)
         {
@@ -26,7 +27,17 @@ namespace breakout01
         }
         public void Update(ScreenHelper screenHelper, Paddle paddle)
         {
-            _position += _velocity * _speed;
+            if (InMotion)
+            {
+                _position += _velocity * _speed;
+            }
+            else
+            {
+                // Ball sticks to paddle ready to launch. Some math to center it
+                _position = new Vector2(paddle.Position.X + paddle.Texture.Width / 2 - _texture.Width / 2,
+                    paddle.Position.Y - _texture.Height);
+            }
+
 
             // Some hardcoded values to detect collision with the game borders
             if (_position.X >= screenHelper.ScreenWidth - 12 - _texture.Width)

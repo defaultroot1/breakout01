@@ -8,40 +8,47 @@ namespace breakout01
 {
     internal class Paddle
     {
-        private Texture2D _texture;
-        private Vector2 _position;
+        public Texture2D Texture { get; private set; }
+        public Vector2 Position { get; private set; }
         private KeyboardState _keyboardState;
         private float _speed = 3f;
 
         public Paddle(ContentManager contentManager, ScreenHelper screenHelper)
         {
-            _texture = contentManager.Load<Texture2D>("Sprites/Paddle");
-            _position = new Vector2(screenHelper.ScreenWidth / 2, screenHelper.ScreenHeight * 0.94f);
+            Texture = contentManager.Load<Texture2D>("Sprites/Paddle");
+            Position = new Vector2(screenHelper.ScreenWidth / 2, screenHelper.ScreenHeight * 0.94f);
         }
         public Rectangle GetBounds()
         {
-            return new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, _texture.Height);
+            return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
         }
 
-        public void Update(ScreenHelper screenHelper)
+        public void Update(ScreenHelper screenHelper, Ball ball)
         {
             _keyboardState = Keyboard.GetState();
 
             if (_keyboardState.IsKeyDown(Keys.A))
             {
-                _position.X -= _speed;
+                Position = new Vector2(Position.X - _speed, Position.Y);
             }
             if (_keyboardState.IsKeyDown(Keys.D))
             {
-                _position.X += _speed;
+                Position = new Vector2(Position.X + _speed, Position.Y);
             }
 
-            _position.X = MathHelper.Clamp(_position.X, 12, screenHelper.ScreenWidth - 12 - _texture.Width);
+            if (_keyboardState.IsKeyDown(Keys.Space) && !ball.InMotion)
+            {
+                ball.InMotion = true;
+            }
+
+            Position = new Vector2(MathHelper.Clamp(Position.X, 12, screenHelper.ScreenWidth - 12 - Texture.Width), Position.Y);
+
+            //Position = MathHelper.Clamp(Position.X, 12, screenHelper.ScreenWidth - 12 - Texture.Width);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _position, Color.White);
+            spriteBatch.Draw(Texture, Position, Color.White);
         }
     }
 }
