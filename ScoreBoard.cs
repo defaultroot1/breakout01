@@ -16,12 +16,12 @@ namespace breakout01
             _font = contentManager.Load<SpriteFont>("Fonts/scoreFont");
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
-            spriteBatch.DrawString(_font, Lives.ToString(), new Vector2(15, 25), Color.White);
+            Breakout.sSpriteBatch.DrawString(_font, Lives.ToString(), new Vector2(15, 25), Color.White);
 
 
-            spriteBatch.DrawString(_font, Score.ToString("D3"), new Vector2(70, 80), Color.White);
+            Breakout.sSpriteBatch.DrawString(_font, Score.ToString("D3"), new Vector2(70, 80), Color.White);
         }
 
     }

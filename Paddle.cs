@@ -45,9 +45,9 @@ namespace breakout01
             Position = new Vector2(MathHelper.Clamp(Position.X, 12, ScreenManager.ScreenWidth - 12 - Texture.Width), Position.Y);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
-            spriteBatch.Draw(Texture, Position, Color.White);
+            Breakout.sSpriteBatch.Draw(Texture, Position, Color.White);
         }
     }
 }

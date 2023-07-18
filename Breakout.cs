@@ -11,7 +11,8 @@ namespace breakout01
     public class Breakout : Game
     {
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        public static SpriteBatch sSpriteBatch;
+        public static ContentManager sContentMananger;
 
         private ScoreBoard _scoreBoard;
         private AudioManager _audioManager;
@@ -45,9 +46,8 @@ namespace breakout01
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             _scoreBoard = new ScoreBoard(Content);
+            sSpriteBatch = new SpriteBatch(GraphicsDevice);
 
             _gameField = new GameField(Content);
             _paddle = new Paddle(Content);
@@ -72,16 +72,16 @@ namespace breakout01
         {
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.Begin();
+            sSpriteBatch.Begin();
 
-            _gameField.Draw(_spriteBatch);
-            _scoreBoard.Draw(_spriteBatch);
-            _paddle.Draw(_spriteBatch);
-            _ball.Draw(_spriteBatch);
-            _blockManager.Draw(_spriteBatch);
+            _gameField.Draw();
+            _scoreBoard.Draw();
+            _paddle.Draw();
+            _ball.Draw();
+            _blockManager.Draw();
 
             
-            _spriteBatch.End();
+            sSpriteBatch.End();
 
             base.Draw(gameTime);
         }

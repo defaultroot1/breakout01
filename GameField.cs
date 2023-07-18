@@ -13,9 +13,9 @@ namespace breakout01
             _texture = contentManager.Load<Texture2D>("Sprites/Background");
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
-            spriteBatch.Draw(_texture, Vector2.Zero, Color.White);
+            Breakout.sSpriteBatch.Draw(_texture, Vector2.Zero, Color.White);
         }
     }
 }

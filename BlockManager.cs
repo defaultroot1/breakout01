@@ -62,11 +62,11 @@ namespace breakout01
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
             foreach (Block block in Blocks)
             {
-                block.Draw(spriteBatch);
+                block.Draw();
             }
         }
     }

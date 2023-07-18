@@ -115,9 +115,9 @@ namespace breakout01
             
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
-            spriteBatch.Draw(_texture, _position, Color.White);
+            Breakout.sSpriteBatch.Draw(_texture, _position, Color.White);
         }
     }
 }

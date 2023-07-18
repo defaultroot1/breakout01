@@ -38,9 +38,9 @@ namespace breakout01
             return new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw()
         {
-            spriteBatch.Draw(Texture, Position, Color.White);
+            Breakout.sSpriteBatch.Draw(Texture, Position, Color.White);
         }
     }
 }
