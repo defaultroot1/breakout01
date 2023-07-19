@@ -14,6 +14,13 @@ namespace breakout01
         public static SpriteBatch sSpriteBatch;
         public static ContentManager sContentMananger;
 
+        public enum GameState
+        {
+            Playing,
+            GameOver
+        }
+        public static GameState gameState;
+
         private ScoreBoard _scoreBoard;
         private AudioManager _audioManager;
 
@@ -38,8 +45,8 @@ namespace breakout01
 
             ScreenManager.ScreenWidth = _graphics.PreferredBackBufferWidth;
             ScreenManager.ScreenHeight = _graphics.PreferredBackBufferHeight;
-
-            _audioManager = new AudioManager(Content);
+            
+            gameState = GameState.Playing;
 
             base.Initialize();
         }
@@ -48,7 +55,7 @@ namespace breakout01
         {
             _scoreBoard = new ScoreBoard(Content);
             sSpriteBatch = new SpriteBatch(GraphicsDevice);
-
+            _audioManager = new AudioManager(Content);
             _gameField = new GameField(Content);
             _paddle = new Paddle(Content);
             _ball = new Ball(Content);
@@ -62,8 +69,18 @@ namespace breakout01
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _paddle.Update(_ball);
-            _ball.Update(_paddle, _blockManager.Blocks, _scoreBoard, _audioManager);
+            switch (gameState)
+            {
+                case GameState.Playing:
+                    _paddle.Update(_ball);
+                    _ball.Update(_paddle, _blockManager.Blocks, _scoreBoard, _audioManager);
+                    break;
+                case GameState.GameOver:
+                    // No updates? Maybe check for key to restart
+                    break;
+            }
+
+
 
             base.Update(gameTime);
         }
@@ -74,11 +91,25 @@ namespace breakout01
 
             sSpriteBatch.Begin();
 
-            _gameField.Draw();
-            _scoreBoard.Draw();
-            _paddle.Draw();
-            _ball.Draw();
-            _blockManager.Draw();
+            switch (gameState)
+            {
+                case GameState.Playing:
+                    _gameField.Draw();
+                    _scoreBoard.Draw();
+                    _paddle.Draw();
+                    _ball.Draw();
+                    _blockManager.Draw();
+                    break;
+                case GameState.GameOver:
+                    _gameField.Draw();
+                    _scoreBoard.Draw();
+                    _paddle.Draw();
+                    _blockManager.Draw();
+                    _scoreBoard.GameOver();
+                    break;
+            }
+
+
 
             
             sSpriteBatch.End();

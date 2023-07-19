@@ -69,6 +69,12 @@ namespace breakout01
                 InMotion = false;
                 scoreBoard.Lives--;
                 _speed = _initialBallSpeed;
+
+                if (scoreBoard.Lives == 0)
+                {
+                    // Gameover
+                    Breakout.gameState = Breakout.GameState.GameOver;
+                }
             }
 
             // Collision with paddle
