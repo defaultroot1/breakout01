@@ -76,7 +76,10 @@ namespace breakout01
                     _ball.Update(_paddle, _blockManager.Blocks, _scoreBoard, _audioManager);
                     break;
                 case GameState.GameOver:
-                    // No updates? Maybe check for key to restart
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                    {
+                        Restart();
+                    }
                     break;
             }
 
@@ -115,6 +118,14 @@ namespace breakout01
             sSpriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void Restart()
+        {
+            _scoreBoard.Score = 0;
+            _scoreBoard.Lives = 1;
+            _blockManager = new BlockManager(Content);
+            gameState = GameState.Playing;
         }
 
     }
